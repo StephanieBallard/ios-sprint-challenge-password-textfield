@@ -61,6 +61,11 @@ class PasswordField: UIControl {
         // MARK: - Add Subviews -
         addSubview(titleLabel)
         addSubview(textField)
+        addSubview(passwordStrengthStackView)
+        addSubview(strengthDescriptionLabel)
+        
+        // MARK: - Translates Autoresizing Mask Into Constraints -
+        showHideButton.translatesAutoresizingMaskIntoConstraints = false
         
         // MARK: - Title Label -
         titleLabel.text = "ENTER PASSWORD"
@@ -80,8 +85,44 @@ class PasswordField: UIControl {
         textField.rightViewMode = .always
         
         textField.anchor(top: titleLabel.bottomAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, trailing: self.safeAreaLayoutGuide.trailingAnchor, bottom: nil, padding: .init(top: standardMargin, left: 0, bottom: 0, right: 0), size: CGSize(width: .zero, height: textFieldContainerHeight))
+        
+        // MARK: - Show Hide Button -
+        showHideButton.setImage(UIImage(named: "eyes-closed"), for: .normal)
+        showHideButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2.0 * standardMargin, bottom: 0, right: 0)
+        showHideButton.addTarget(self, action: #selector(showHideButtonTapped), for: .touchUpInside)
+        
+        weakView.backgroundColor = unusedColor
+        mediumView.backgroundColor = unusedColor
+        strongView.backgroundColor = unusedColor
+        
+        weakView.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, padding: .zero, size: CGSize(width: colorViewSize.width, height: colorViewSize.height))
+        mediumView.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, padding: .zero, size: CGSize(width: colorViewSize.width, height: colorViewSize.height))
+        strongView.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, padding: .zero, size: CGSize(width: colorViewSize.width, height: colorViewSize.height))
+        
+        strengthDescriptionLabel.text = "weak password"
+        strengthDescriptionLabel.font = labelFont
+        
+        passwordStrengthStackView.axis = .horizontal
+        passwordStrengthStackView.distribution = .equalSpacing
+        
+        passwordStrengthStackView.addArrangedSubview(weakView)
+        passwordStrengthStackView.addArrangedSubview(mediumView)
+        passwordStrengthStackView.addArrangedSubview(strongView)
+        
+        passwordStrengthStackView.anchor(top: textField.bottomAnchor, leading: textField.leadingAnchor, trailing: nil, bottom: nil, padding: .init(top: standardMargin * 1.5, left: textFieldMargin - 2, bottom: 0, right: 0), size: CGSize(width: colorViewSize.width * 3 + standardMargin, height: colorViewSize.height))
+
+        strengthDescriptionLabel.anchor(top: textField.bottomAnchor, leading: passwordStrengthStackView.trailingAnchor, trailing: nil, bottom: nil, padding: .init(top: textFieldMargin, left: standardMargin, bottom: 0, right: 0), size: .zero)
     }
     
+    
+    @objc func showHideButtonTapped() {
+        textField.isSecureTextEntry.toggle()
+        if textField.isSecureTextEntry {
+            showHideButton.setImage(UIImage(named: "eyes-closed"), for: .normal)
+        } else {
+            showHideButton.setImage(UIImage(named: "eyes-open"), for: .normal)
+        }
+    }
     
 }
 
