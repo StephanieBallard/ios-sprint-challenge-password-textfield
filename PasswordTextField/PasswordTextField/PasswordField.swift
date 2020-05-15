@@ -58,8 +58,15 @@ class PasswordField: UIControl {
     func setup() {
         // Lay out your subviews here
         
+        // MARK: - Add Subviews -
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        // MARK: - Title Label -
+        titleLabel.text = "ENTER PASSWORD"
+        titleLabel.font = labelFont
+        titleLabel.textColor = labelTextColor
+        titleLabel.anchor(top: self.safeAreaLayoutGuide.topAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, trailing: nil, bottom: nil, padding: .init(top: standardMargin, left: standardMargin, bottom: 0, right: 0), size: .zero)
     }
     
     
