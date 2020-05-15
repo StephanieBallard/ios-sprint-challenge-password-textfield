@@ -60,13 +60,26 @@ class PasswordField: UIControl {
         
         // MARK: - Add Subviews -
         addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(textField)
         
         // MARK: - Title Label -
         titleLabel.text = "ENTER PASSWORD"
         titleLabel.font = labelFont
         titleLabel.textColor = labelTextColor
         titleLabel.anchor(top: self.safeAreaLayoutGuide.topAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, trailing: nil, bottom: nil, padding: .init(top: standardMargin, left: standardMargin, bottom: 0, right: 0), size: .zero)
+        
+        // MARK: - Text Field -
+        textField.layer.cornerRadius = standardMargin
+        textField.layer.borderWidth = 2.0
+        textField.layer.borderColor = textFieldBorderColor.cgColor
+        textField.placeholder = "Enter a strong password"
+        textField.borderStyle = .roundedRect
+        textField.backgroundColor = bgColor
+        textField.isSecureTextEntry = true
+        textField.rightView = showHideButton
+        textField.rightViewMode = .always
+        
+        textField.anchor(top: titleLabel.bottomAnchor, leading: self.safeAreaLayoutGuide.leadingAnchor, trailing: self.safeAreaLayoutGuide.trailingAnchor, bottom: nil, padding: .init(top: standardMargin, left: 0, bottom: 0, right: 0), size: CGSize(width: .zero, height: textFieldContainerHeight))
     }
     
     
