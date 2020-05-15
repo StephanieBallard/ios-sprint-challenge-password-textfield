@@ -8,10 +8,19 @@
 
 import UIKit
 
+enum Strength: String {
+    case weak = "Too Weak"
+    case medium = "Could Be Stronger"
+    case strong = "Strong Password"
+}
+
 class PasswordField: UIControl {
     
+    // MARK: - Properties -
     // Public API - these properties are used to fetch the final password and strength values
     private (set) var password: String = ""
+    private (set) var passwordStrength: Strength = .weak
+
     
     private let standardMargin: CGFloat = 8.0
     private let textFieldContainerHeight: CGFloat = 50.0
@@ -37,6 +46,14 @@ class PasswordField: UIControl {
     private var mediumView: UIView = UIView()
     private var strongView: UIView = UIView()
     private var strengthDescriptionLabel: UILabel = UILabel()
+    private var passwordStrengthStackView = UIStackView()
+    
+    // MARK: - Initializer -
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+        textField.delegate = self
+    }
     
     func setup() {
         // Lay out your subviews here
@@ -45,10 +62,7 @@ class PasswordField: UIControl {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
+    
 }
 
 extension PasswordField: UITextFieldDelegate {
